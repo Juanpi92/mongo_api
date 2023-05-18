@@ -9,6 +9,7 @@
     "start": "node src/app.js "
   },
   "keywords": [],
+  "type": "module",
   "author": "",
   "license": "ISC",
   "dependencies": {
