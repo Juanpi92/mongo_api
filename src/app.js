@@ -1,5 +1,6 @@
 import express  from "express";
 import dotenv from "dotenv";
+import { connectDB } from "./infra/db.js";
 
 
 dotenv.config();
@@ -7,9 +8,8 @@ const PORT = process.env.PORT||3000;
 const app = express();
 app.use(express.json());
 
-
-
-
+//Conectando a db
+connectDB();
 
 app.get("/",async (req, res) => {
     res.status(200).send({message:"Api is going"})
