@@ -24,7 +24,10 @@ export const PersonRoutes = (app) => {
       console.log(id);
       //let person = await Person.find({ _id: id });
       let person = await Person.findById(id);
-      res.status(201).send({ person });
+      if (!person) {
+        res.status(204).send({ message: "No encontramos o usuario" });
+      }
+      res.status(200).send({ person });
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: error });
@@ -34,7 +37,10 @@ export const PersonRoutes = (app) => {
   app.get("/Allperson", async (req, res) => {
     try {
       let people = await Person.find();
-      res.status(201).send({ people });
+      if (!people) {
+        res.status(204).send({ message: "No encontramos nehum usuario" });
+      }
+      res.status(200).send({ people });
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: error });
@@ -46,7 +52,10 @@ export const PersonRoutes = (app) => {
     try {
       const { pos } = req.params;
       let person = await Person.findOne().skip(pos);
-      res.status(201).send({ person });
+      if (!person) {
+        res.status(204).send({ message: "No encontramos o usuario" });
+      }
+      res.status(200).send({ person });
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: error });
@@ -58,10 +67,13 @@ export const PersonRoutes = (app) => {
 // Actualizar una Persona por su ID
 app.put("/person/:id", async (req, res) => {
   try {
-    await Person.findByIdAndUpdate(req.params.id, req.body, {
+    let person = await Person.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
-    res.json(ejemplo);
+    if (!person) {
+      res.status(204).send({ message: "No encontramos o usuario" });
+    }
+    res.status(200).send({ message: "Usuario atualizado exitosamente" });
   } catch (error) {
     console.error("Error al actualizar el ejemplo:", error);
     res.status(500).json({ error: "Error al actualizar el ejemplo" });
@@ -71,9 +83,12 @@ app.put("/person/:id", async (req, res) => {
 //Delete
 app.delete("/person/:id", async (req, res) => {
   try {
-    // await Person.findByIdAndRemove(req.params.id);
-    await Person.findByIdAndDelete(req.params.id);
-    res.json({ mensaje: "Persona eliminada exitosamente" });
+    let person = await Person.findByIdAndRemove(req.params.id);
+    //await Person.findByIdAndDelete(req.params.id);
+    if (!person) {
+      res.status(204).send({ message: "No encontramos o usuario" });
+    }
+    res.status(200).send({ message: "Usuario deletado exitosamente" });
   } catch (error) {
     console.error("Error al eliminar la persona:", error);
     res.status(500).json({ error: "Error al eliminar la persona" });
