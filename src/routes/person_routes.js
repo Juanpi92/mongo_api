@@ -26,6 +26,7 @@ export const PersonRoutes = (app) => {
       let person = await Person.findById(id);
       if (!person) {
         res.status(204).send({ message: "No encontramos o usuario" });
+        return;
       }
       res.status(200).send({ person });
     } catch (error) {
@@ -39,6 +40,7 @@ export const PersonRoutes = (app) => {
       let people = await Person.find();
       if (!people) {
         res.status(204).send({ message: "No encontramos nehum usuario" });
+        return;
       }
       res.status(200).send({ people });
     } catch (error) {
@@ -54,6 +56,7 @@ export const PersonRoutes = (app) => {
       let person = await Person.findOne().skip(pos);
       if (!person) {
         res.status(204).send({ message: "No encontramos o usuario" });
+        return;
       }
       res.status(200).send({ person });
     } catch (error) {
@@ -72,6 +75,7 @@ app.put("/person/:id", async (req, res) => {
     });
     if (!person) {
       res.status(204).send({ message: "No encontramos o usuario" });
+      return;
     }
     res.status(200).send({ message: "Usuario atualizado exitosamente" });
   } catch (error) {
@@ -87,6 +91,7 @@ app.delete("/person/:id", async (req, res) => {
     //await Person.findByIdAndDelete(req.params.id);
     if (!person) {
       res.status(204).send({ message: "No encontramos o usuario" });
+      return;
     }
     res.status(200).send({ message: "Usuario deletado exitosamente" });
   } catch (error) {
