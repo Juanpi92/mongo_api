@@ -99,3 +99,23 @@ app.delete("/person/:id", async (req, res) => {
     res.status(500).json({ error: "Error al eliminar la persona" });
   }
 });
+
+//Patch
+app.patch("/person/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updates = req.body;
+    const options = { new: true }; // Devolver el documento actualizado
+
+    const person = await Person.findByIdAndUpdate(id, updates, options);
+
+    if (!person) {
+      res.status(204).send({ message: "No encontramos o usuario" });
+      return;
+    }
+    res.status(200).send({ message: "Usuario deletado exitosamente" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Error en el servidor" });
+  }
+});
