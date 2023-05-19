@@ -21,7 +21,7 @@ export const PersonRoutes = (app) => {
   app.get("/person", async (req, res) => {
     try {
       let id = req.body.id;
-      console.log(id);
+
       //let person = await Person.find({ _id: id });
       let person = await Person.findById(id);
       if (!person) {
@@ -42,7 +42,7 @@ export const PersonRoutes = (app) => {
         res.status(204).send({ message: "No encontramos nehum usuario" });
         return;
       }
-      res.status(200).send({ people });
+      res.status(200).send(people);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: error });
@@ -64,58 +64,58 @@ export const PersonRoutes = (app) => {
       res.status(500).json({ error: error });
     }
   });
+
+  //Update
+  // Actualizar una Persona por su ID
+  app.put("/person/:id", async (req, res) => {
+    try {
+      let person = await Person.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+      });
+      if (!person) {
+        res.status(204).send({ message: "No encontramos o usuario" });
+        return;
+      }
+      res.status(200).send({ message: "Usuario atualizado exitosamente" });
+    } catch (error) {
+      console.error("Error al actualizar el ejemplo:", error);
+      res.status(500).json({ error: "Error al actualizar el ejemplo" });
+    }
+  });
+
+  //Delete
+  app.delete("/person/:id", async (req, res) => {
+    try {
+      let person = await Person.findByIdAndRemove(req.params.id);
+      //await Person.findByIdAndDelete(req.params.id);
+      if (!person) {
+        res.status(204).send({ message: "No encontramos o usuario" });
+        return;
+      }
+      res.status(200).send({ message: "Usuario deletado exitosamente" });
+    } catch (error) {
+      console.error("Error al eliminar la persona:", error);
+      res.status(500).json({ error: "Error al eliminar la persona" });
+    }
+  });
+
+  //Patch
+  app.patch("/person/:id", async (req, res) => {
+    try {
+      const id = req.params.id;
+      const updates = req.body;
+      const options = { new: true }; // Devolver el documento actualizado
+
+      const person = await Person.findByIdAndUpdate(id, updates, options);
+
+      if (!person) {
+        res.status(204).send({ message: "No encontramos o usuario" });
+        return;
+      }
+      res.status(200).send({ message: "Usuario deletado exitosamente" });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Error en el servidor" });
+    }
+  });
 };
-
-//Update
-// Actualizar una Persona por su ID
-app.put("/person/:id", async (req, res) => {
-  try {
-    let person = await Person.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    if (!person) {
-      res.status(204).send({ message: "No encontramos o usuario" });
-      return;
-    }
-    res.status(200).send({ message: "Usuario atualizado exitosamente" });
-  } catch (error) {
-    console.error("Error al actualizar el ejemplo:", error);
-    res.status(500).json({ error: "Error al actualizar el ejemplo" });
-  }
-});
-
-//Delete
-app.delete("/person/:id", async (req, res) => {
-  try {
-    let person = await Person.findByIdAndRemove(req.params.id);
-    //await Person.findByIdAndDelete(req.params.id);
-    if (!person) {
-      res.status(204).send({ message: "No encontramos o usuario" });
-      return;
-    }
-    res.status(200).send({ message: "Usuario deletado exitosamente" });
-  } catch (error) {
-    console.error("Error al eliminar la persona:", error);
-    res.status(500).json({ error: "Error al eliminar la persona" });
-  }
-});
-
-//Patch
-app.patch("/person/:id", async (req, res) => {
-  try {
-    const id = req.params.id;
-    const updates = req.body;
-    const options = { new: true }; // Devolver el documento actualizado
-
-    const person = await Person.findByIdAndUpdate(id, updates, options);
-
-    if (!person) {
-      res.status(204).send({ message: "No encontramos o usuario" });
-      return;
-    }
-    res.status(200).send({ message: "Usuario deletado exitosamente" });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Error en el servidor" });
-  }
-});
