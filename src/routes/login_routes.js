@@ -28,4 +28,30 @@ export const LoginRoutes = (app) => {
     }
   });
   //login
+  app.get("/login", async (req, res) => {
+    try {
+      let { email, password } = req.body;
+      let existe = await Usuario.findOne({ email: email });
+      if (!existe) {
+        return res.status(400).send({ error: "User or password wrong" });
+      }
+      let valid = await bcrypt.compare(password, existe.password);
+      if (!valid) {
+        return res.status(400).send({ error: "User or password wrong " });
+      }
+      //Entonces encontrou o usuario na bd
+      //Convierto de documento de moongose a plain javascript object
+      //existe = existe.toObject();
+      existe = existe.toJSON();
+      delete existe.password;
+      console.log(existe);
+      let token = jwt.sign(existe, process.env.SECRET_TOKEN);
+      //Envio a resposta
+      res.setHeader("auth-token", JSON.stringify(token));
+      res.status(200).send({ user: existe });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({ error: "Cant access to the database" });
+    }
+  });
 };

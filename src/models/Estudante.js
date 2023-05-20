@@ -11,7 +11,10 @@ export const Estudante = mongoose.model(
     Genero: String,
     endereco: String,
     telefone: String,
-    email: String,
+    email: {
+      type: String,
+      unique: true,
+    },
     curso: String,
   },
   "Estudantes"

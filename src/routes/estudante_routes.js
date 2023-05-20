@@ -1,8 +1,9 @@
+import { validate } from "../authorization/auth.js";
 import { Estudante } from "../models/Estudante.js";
 
 export const EstudanteRoutes = (app) => {
   //inserir
-  app.post("/estudante", async (req, res) => {
+  app.post("/estudante", validate, async (req, res) => {
     const { name, approved, idade, genero, endereco, telefone, email, curso } =
       req.body;
     const estudante = {
@@ -19,6 +20,12 @@ export const EstudanteRoutes = (app) => {
       await Estudante.create(estudante);
       res.status(201).send({ message: "Estudante inserido exitosamente" });
     } catch (error) {
+      if (error.code === 11000) {
+        return res
+          .status(400)
+          .send({ menssage: "ja o estudante existe na Base de dados" });
+        // Realize ações apropriadas para lidar com a violação de chave única
+      }
       res.status(500).json({ error: error });
     }
   });
