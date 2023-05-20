@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { connectDB } from "./infra/db.js";
 import { PersonRoutes } from "./routes/person_routes.js";
 import cors from "cors";
+import { LoginRoutes } from "./routes/login_routes.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -22,6 +23,8 @@ connectDB();
 
 //Rotas da Api
 PersonRoutes(app);
+
+LoginRoutes(app);
 
 app.get("/", async (req, res) => {
   res.status(200).send({ message: "Api is going" });
