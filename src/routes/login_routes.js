@@ -41,7 +41,7 @@ export const LoginRoutes = (app) => {
       if (!valid) {
         return res.status(400).send({ error: "User or password wrong " });
       }
-      //Entonces encontrou o usuario na bd
+      //Então encontrou o usuario na bd
       //Convierto de documento de moongose a plain javascript object
       //existe = existe.toObject();
       existe = existe.toJSON();
