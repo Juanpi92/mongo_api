@@ -1,17 +1,23 @@
-import { Person } from "../models/Person.js";
+import { Estudante } from "../models/Estudante.js";
 
-export const PersonRoutes = (app) => {
+export const EstudanteRoutes = (app) => {
   //inserir
-  app.post("/person", async (req, res) => {
-    const { name, salary, approved } = req.body;
-    const person = {
+  app.post("/estudante", async (req, res) => {
+    const { name, approved, idade, genero, endereco, telefone, email, curso } =
+      req.body;
+    const estudante = {
       name,
-      salary,
       approved,
+      idade,
+      genero,
+      endereco,
+      telefone,
+      email,
+      curso,
     };
     try {
-      await Person.create(person);
-      res.status(201).send({ message: "Usuario inserido exitosamente" });
+      await Estudante.create(estudante);
+      res.status(201).send({ message: "Estudante inserido exitosamente" });
     } catch (error) {
       res.status(500).json({ error: error });
     }
