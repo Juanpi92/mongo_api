@@ -32,6 +32,8 @@ export const LoginRoutes = (app) => {
     try {
       let { email, password } = req.body;
       let existe = await Usuario.findOne({ email: email });
+      // OJO puede ser interesante  let existe = await Usuario.findOne({ email: email }, "-password");
+      console.log(existe);
       if (!existe) {
         return res.status(400).send({ error: "User or password wrong" });
       }
