@@ -77,7 +77,7 @@ export const EstudanteRoutes = (app) => {
 
   //Update
   // Actualizar una estudante por su ID
-  app.put("/estudante/:id", async (req, res) => {
+  app.put("/estudante/:id", validate, async (req, res) => {
     try {
       let estudante = await Estudante.findByIdAndUpdate(
         req.params.id,
@@ -97,7 +97,7 @@ export const EstudanteRoutes = (app) => {
   });
 
   //Delete
-  app.delete("/estudante/:id", async (req, res) => {
+  app.delete("/estudante/:id", validate, async (req, res) => {
     try {
       let estudante = await Estudante.findByIdAndRemove(req.params.id);
       //await Estudante.findByIdAndDelete(req.params.id);
@@ -112,7 +112,7 @@ export const EstudanteRoutes = (app) => {
   });
 
   //Patch
-  app.patch("/estudante/:id", async (req, res) => {
+  app.patch("/estudante/:id", validate, async (req, res) => {
     try {
       const id = req.params.id;
       const updates = req.body;

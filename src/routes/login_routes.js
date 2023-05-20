@@ -45,7 +45,9 @@ export const LoginRoutes = (app) => {
       existe = existe.toJSON();
       delete existe.password;
       console.log(existe);
-      let token = jwt.sign(existe, process.env.SECRET_TOKEN);
+      let token = jwt.sign(existe, process.env.SECRET_TOKEN, {
+        expiresIn: "2h",
+      });
       //Envio a resposta
       res.setHeader("auth-token", JSON.stringify(token));
       res.status(200).send({ user: existe });
