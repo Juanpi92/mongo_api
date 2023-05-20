@@ -1,9 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./infra/db.js";
-import { PersonRoutes } from "./routes/estudante_routes.js";
 import cors from "cors";
 import { LoginRoutes } from "./routes/login_routes.js";
+import { EstudanteRoutes } from "./routes/estudante_routes.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -22,7 +22,7 @@ app.use(
 connectDB();
 
 //Rotas da Api
-PersonRoutes(app);
+EstudanteRoutes(app);
 
 LoginRoutes(app);
 
